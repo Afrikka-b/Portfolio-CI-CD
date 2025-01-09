@@ -22,10 +22,11 @@ jobs:
             unzip awscliv2.zip
             sudo ./aws/install
           else
-            # If AWS CLI is installed, attempt to update it
+            # If AWS CLI is installed, reinstall it to update
             echo "AWS CLI already installed, updating..."
-            sudo /usr/local/aws-cli/v2/current/bin/aws --version
-            sudo /usr/local/aws-cli/v2/current/bin/aws --update
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install --update
           fi
 
       - name: Configure AWS Credentials
