@@ -13,16 +13,20 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Install AWS CLI
+      - name: Install or Update AWS CLI
         run: |
-          # Install dependencies
-          sudo apt-get update
-          sudo apt-get install -y unzip curl
-
-          # Install AWS CLI
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip
-          sudo ./aws/install
+          if ! command -v aws &> /dev/null; then
+            # If AWS CLI is not installed, install it
+            echo "AWS CLI not found, installing..."
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
+          else
+            # If AWS CLI is installed, attempt to update it
+            echo "AWS CLI already installed, updating..."
+            sudo /usr/local/aws-cli/v2/current/bin/aws --version
+            sudo /usr/local/aws-cli/v2/current/bin/aws --update
+          fi
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
