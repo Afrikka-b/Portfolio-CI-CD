@@ -23,7 +23,8 @@ jobs:
             sudo ./aws/install
           else
             echo "AWS CLI already installed, updating..."
-            sudo ./aws/install --update
+            # Run the update using the existing AWS CLI path
+            sudo /usr/local/aws-cli/v2/current/bin/aws --update
           fi
 
       - name: Configure AWS Credentials
