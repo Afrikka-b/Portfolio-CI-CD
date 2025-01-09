@@ -35,6 +35,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-2  # Replace with your AWS region
 
-      - name: Sync with S3
+      - name: Debug Sync with S3
         run: |
+          set -x  # Enable command debugging
           aws s3 sync . s3://afrikabucknor.com/ --delete
+          set +x  # Disable command debugging
